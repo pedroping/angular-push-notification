@@ -1,24 +1,26 @@
-import { Component } from '@angular/core';
-import { SwPush } from '@angular/service-worker';
-import { PushNotificationService } from './pushNotification.service';
+import { Component } from "@angular/core";
+import { SwPush } from "@angular/service-worker";
+import { PushNotificationService } from "./pushNotification.service";
 
-const VAPID_PUBLIC = 'BNOJyTgwrEwK9lbetRcougxkRgLpPs1DX0YCfA5ZzXu4z9p_Et5EnvMja7MGfCqyFCY4FnFnJVICM4bMUcnrxWg';
+const VAPID_PUBLIC =
+  "BNOJyTgwrEwK9lbetRcougxkRgLpPs1DX0YCfA5ZzXu4z9p_Et5EnvMja7MGfCqyFCY4FnFnJVICM4bMUcnrxWg";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"],
+  standalone: false,
 })
 export class AppComponent {
-  title = 'angular-push-notifications';
+  title = "angular-push-notifications";
 
   constructor(swPush: SwPush, pushService: PushNotificationService) {
     if (swPush.isEnabled) {
       swPush
         .requestSubscription({
-          serverPublicKey: VAPID_PUBLIC
+          serverPublicKey: VAPID_PUBLIC,
         })
-        .then(subscription => {
+        .then((subscription) => {
           pushService.sendSubscriptionToTheServer(subscription).subscribe();
         })
         .catch(console.error);
